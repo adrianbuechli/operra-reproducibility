@@ -16,50 +16,13 @@ format:
 
 Within this file, we will *analyse* some data to show how quarto works.
 
-```{r}
-#| label: Loading Packages
-#| message: false
-#| warning: false
-#| include: false
-library("dplyr") # data wrangling
-library("ggplot2") # plotting
-library("kableExtra") # tables
-library("ggpubr") # tables
-```
-
-```{r}
-#| label: Load Data
-#| message: false
-#| warning: false
-#| include: false
-url <- "https://data.stadt-zuerich.ch/dataset/bev_vornamen_baby_od3700/download/BEV370OD3700.csv"
-dat <- read.csv(url)
-datclean <- dat |>
-    rename(year = StichtagDatJahr,
-           name = Vorname,
-           sex = SexLang,
-           births = AnzGebuWir) |>
-    mutate(sex = ifelse(sex == "weiblich", "female", "male"))
-```
-
-```{r}
-#| label: Format Data
-#| include: false
-summaries <- datclean |>
-  select(year, name, sex, births) |>
-  group_by(sex, year) |>
-  slice_max(births, n = 1)   |>
-  arrange(-year)
-```
-
 ## Creating a Table
 
 We have read in the data and will now create a table to display relevant information.
 
 ```{r}
-#| echo: false
-#| message: false
-#| warning: false
+summaries <- read.csv("/home/rstudio/project/contents/module_3_workflow_management/demo/snakemake/work/2_yearly_winners.csv")
+
 summaries |>
   kable(caption = "Most common names of newborns in the city of Zurich by year and sex")
 ```
@@ -67,10 +30,8 @@ summaries |>
 We can additionally plot the data in a nice little graphic.
 
 ```{r}
-#| label: Barplot of Names
-#| echo: false
-#| message: false
-#| warning: false
+datclean <- read.csv("/home/rstudio/project/contents/module_3_workflow_management/demo/snakemake/work/3_top_names.csv")
+
 datclean |>
   # The upper bound is deliberate: the data set gains a year of records over
   # time, and bounding the window keeps this figure matching its caption.
@@ -84,19 +45,17 @@ datclean |>
   labs(x = "Name", y = "Births", 
        title = "") +
   coord_flip() +
-  theme_pubr()
+  theme_minimal()
 ```
 
 We can also plot my own name over time.
 
 ```{r}
-#| label: Plot Names
-#| echo: false
-#| message: false
-#| warning: false
+datclean <- read.csv("/home/rstudio/project/contents/module_3_workflow_management/demo/snakemake/work/3_selected_names.csv")
+
 datclean |>
-  group_by(name, year) |>
-  filter(name %in% c("Christian", "Adrian", "Marcel")) |>
+  group_by(sex, name, year) |>
+  filter(name %in% c("Christian", "Adrian")) |>
   ggplot(aes(x = year, y = births, color = name)) +
   geom_line() +
   geom_point() +

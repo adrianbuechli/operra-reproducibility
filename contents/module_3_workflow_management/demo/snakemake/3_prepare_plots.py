@@ -31,7 +31,7 @@ def main() -> None:
     )
 
     selected_names = (
-        clean.filter(pl.col("name").is_in(["Peter", "Daniel"]))
+        clean.filter(pl.col("name").is_in(["Christian", "Adrian"]))
         .group_by(["year", "name"])
         .agg(pl.col("births").sum())
         .sort(["name", "year"])
