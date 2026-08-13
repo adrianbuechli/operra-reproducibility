@@ -37,7 +37,7 @@ summaries |>
 We can additionally plot the data in a nice little graphic.
 
 ```{r}
-datclean <- read.csv("/home/rstudio/project/contents/module_3_workflow_management/demo/snakemake/work/1_names_clean")
+datclean <- read.csv("/home/rstudio/project/contents/module_3_workflow_management/demo/snakemake/work/1_names_clean.csv")
 
 datclean |>
   # The upper bound is deliberate: the data set gains a year of records over
