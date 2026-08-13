@@ -13,6 +13,8 @@ Part of the [OPeR-RA workshop series](https://www.swissrn.org/contents/activitie
 
 ### Adrian Büchli
 
+This document tracks all my learning during the course.
+
 As part of this workshop you will fork this repository and turn it into a small
 but complete reproducible project: a dynamic report generated from real data, an
 analysis pipeline you run end to end, the container it all runs inside, and a
