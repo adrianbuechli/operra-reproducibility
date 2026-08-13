@@ -16,6 +16,13 @@ format:
 
 Within this file, we will *analyse* some data to show how quarto works.
 
+```{r}
+library("dplyr") # data wrangling
+library("ggplot2") # plotting
+library("kableExtra") # tables
+```
+
+
 ## Creating a Table
 
 We have read in the data and will now create a table to display relevant information.
