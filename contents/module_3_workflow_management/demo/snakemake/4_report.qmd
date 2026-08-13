@@ -74,5 +74,3 @@ datclean |>
   theme_minimal()
 ```
 
-In 1998, the most common male name was `r filter(summaries, year == 1998, sex == "male")$name` whereas the most common female name was `r filter(summaries, year == 1998, sex == "female")$name`.
-
