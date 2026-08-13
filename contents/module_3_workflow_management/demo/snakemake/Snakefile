@@ -13,6 +13,7 @@
 D = workflow.basedir
 DATA_URL = "https://data.stadt-zuerich.ch/dataset/bev_vornamen_baby_od3700/download/BEV370OD3700.csv"
 
+
 rule all:
     input:
         f"{D}/results/4_report.html"
@@ -64,4 +65,9 @@ rule final_report:
     params:
         basedir=D,
     shell:
-        "cd {params.basedir} && quarto render 4_report.qmd --to html && mkdir -p results && mv 4_report.html results/"
+        """
+        cd {params.basedir:q} &&
+        mkdir -p results &&
+        quarto render 4_report.qmd --to html &&
+        mv 4_report.html results/4_report.html
+        """

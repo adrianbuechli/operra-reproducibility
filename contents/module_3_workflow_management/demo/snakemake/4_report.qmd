@@ -10,6 +10,7 @@ author:
 format:
   html:
     toc: true # add a table of contents
+    embed-resources: true
 ---
 
 # Exemplary Data Analysis
@@ -39,6 +40,8 @@ summaries |>
   kable(caption = "Most common names of newborns in the city of Zurich by year and sex")
 ```
 
+## Creating a Barplot
+
 We can additionally plot the data in a nice little graphic.
 
 ```{r}
@@ -61,6 +64,8 @@ top_names |>
   coord_flip() +
   theme_minimal()
 ```
+
+## Creating a Graph over Time
 
 We can also plot my own name over time.
 
