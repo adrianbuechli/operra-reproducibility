@@ -1,0 +1,110 @@
+---
+title: "Computational Reproducibility"
+subtitle: "Dynamic Reporting"
+date: last-modified # display the date of the last edit
+author: 
+  - name: "Adrian Büchli"
+    orcid: 1234-1234-1234-12345
+    affiliation: "University of Bern"
+    email: adrian.buechli@unibe.ch
+format:
+  html:
+    toc: true # add a table of contents
+---
+
+# Exemplary Data Analysis
+
+Within this file, we will *analyse* some data to show how quarto works.
+
+```{r}
+#| label: Loading Packages
+#| message: false
+#| warning: false
+#| include: false
+library("dplyr") # data wrangling
+library("ggplot2") # plotting
+library("kableExtra") # tables
+library("ggpubr") # tables
+```
+
+```{r}
+#| label: Load Data
+#| message: false
+#| warning: false
+#| include: false
+url <- "https://data.stadt-zuerich.ch/dataset/bev_vornamen_baby_od3700/download/BEV370OD3700.csv"
+dat <- read.csv(url)
+datclean <- dat |>
+    rename(year = StichtagDatJahr,
+           name = Vorname,
+           sex = SexLang,
+           births = AnzGebuWir) |>
+    mutate(sex = ifelse(sex == "weiblich", "female", "male"))
+```
+
+```{r}
+#| label: Format Data
+#| include: false
+summaries <- datclean |>
+  select(year, name, sex, births) |>
+  group_by(sex, year) |>
+  slice_max(births, n = 1)   |>
+  arrange(-year)
+```
+
+## Creating a Table
+
+We have read in the data and will now create a table to display relevant information.
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+summaries |>
+  kable(caption = "Most common names of newborns in the city of Zurich by year and sex")
+```
+
+We can additionally plot the data in a nice little graphic.
+
+```{r}
+#| label: Barplot of Names
+#| echo: false
+#| message: false
+#| warning: false
+datclean |>
+  # The upper bound is deliberate: the data set gains a year of records over
+  # time, and bounding the window keeps this figure matching its caption.
+  filter(year >= 2021, year <= 2025) |>
+  group_by(sex, name) |>
+  summarise(births = sum(births)) |>
+  slice_max(order_by = births, n = 10) |>
+  ggplot(aes(x = reorder(name, births), y = births)) +
+  facet_wrap(~ sex, scales = "free") +
+  geom_bar(stat = "identity") +
+  labs(x = "Name", y = "Births", 
+       title = "") +
+  coord_flip() +
+  theme_pubr()
+```
+
+We can also plot my own name over time.
+
+```{r}
+#| label: Plot Names
+#| echo: false
+#| message: false
+#| warning: false
+datclean |>
+  group_by(name, year) |>
+  filter(name %in% c("Christian", "Adrian", "Marcel")) |>
+  ggplot(aes(x = year, y = births, color = name)) +
+  geom_line() +
+  geom_point() +
+  scale_color_viridis_d() +
+  labs(x = "Year", y = "Births", color = "") +
+  expand_limits(y = 0) +
+  theme_minimal()
+```
+
+In 1998, the most common male name was `r filter(summaries, year == 1998, sex == "male")$name` whereas the most common female name was `r filter(summaries, year == 1998, sex == "female")$name`.
+
