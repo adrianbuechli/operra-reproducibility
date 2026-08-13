@@ -17,6 +17,7 @@ format:
 Within this file, we will *analyse* some data to show how quarto works.
 
 ```{r}
+#| label: Libraries
 library("dplyr") # data wrangling
 library("ggplot2") # plotting
 library("kableExtra") # tables
@@ -28,6 +29,7 @@ library("kableExtra") # tables
 We have read in the data and will now create a table to display relevant information.
 
 ```{r}
+#| label: Summary Table
 summaries <- read.csv("/home/rstudio/project/contents/module_3_workflow_management/demo/snakemake/work/2_yearly_winners.csv")
 
 summaries |>
@@ -37,6 +39,7 @@ summaries |>
 We can additionally plot the data in a nice little graphic.
 
 ```{r}
+#| label: Barplot
 datclean <- read.csv("/home/rstudio/project/contents/module_3_workflow_management/demo/snakemake/work/1_names_clean.csv")
 
 datclean |>
@@ -58,10 +61,11 @@ datclean |>
 We can also plot my own name over time.
 
 ```{r}
+#| label: Lineplot
 datclean <- read.csv("/home/rstudio/project/contents/module_3_workflow_management/demo/snakemake/work/3_selected_names.csv")
 
 datclean |>
-  group_by(sex, name, year) |>
+  group_by(name, year) |>
   filter(name %in% c("Christian", "Adrian")) |>
   ggplot(aes(x = year, y = births, color = name)) +
   geom_line() +
