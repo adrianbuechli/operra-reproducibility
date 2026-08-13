@@ -23,7 +23,6 @@ library("ggplot2") # plotting
 library("kableExtra") # tables
 ```
 
-
 ## Creating a Table
 
 We have read in the data and will now create a table to display relevant information.
