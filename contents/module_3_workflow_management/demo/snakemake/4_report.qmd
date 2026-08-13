@@ -39,12 +39,11 @@ We can additionally plot the data in a nice little graphic.
 
 ```{r}
 #| label: Barplot
-datclean <- read.csv("/home/rstudio/project/contents/module_3_workflow_management/demo/snakemake/work/1_names_clean.csv")
+top_names <- read.csv("/home/rstudio/project/contents/module_3_workflow_management/demo/snakemake/work/3_top_names.csv")
 
-datclean |>
+top_names |>
   # The upper bound is deliberate: the data set gains a year of records over
   # time, and bounding the window keeps this figure matching its caption.
-  filter(year >= 2021, year <= 2025) |>
   group_by(sex, name) |>
   summarise(births = sum(births)) |>
   slice_max(order_by = births, n = 10) |>
