@@ -18,6 +18,8 @@ Within this file, we will *analyse* some data to show how quarto works.
 
 ```{r}
 #| label: Libraries
+#| message: false
+#| warning: false
 library("dplyr") # data wrangling
 library("ggplot2") # plotting
 library("kableExtra") # tables
@@ -29,7 +31,9 @@ We have read in the data and will now create a table to display relevant informa
 
 ```{r}
 #| label: Summary Table
-summaries <- read.csv("/home/rstudio/project/contents/module_3_workflow_management/demo/snakemake/work/2_yearly_winners.csv")
+#| message: false
+#| warning: false
+summaries <- read.csv("work/2_yearly_winners.csv")
 
 summaries |>
   kable(caption = "Most common names of newborns in the city of Zurich by year and sex")
@@ -39,7 +43,9 @@ We can additionally plot the data in a nice little graphic.
 
 ```{r}
 #| label: Barplot
-top_names <- read.csv("/home/rstudio/project/contents/module_3_workflow_management/demo/snakemake/work/3_top_names.csv")
+#| message: false
+#| warning: false
+top_names <- read.csv("work/3_top_names.csv")
 
 top_names |>
   # The upper bound is deliberate: the data set gains a year of records over
@@ -60,7 +66,9 @@ We can also plot my own name over time.
 
 ```{r}
 #| label: Lineplot
-datclean <- read.csv("/home/rstudio/project/contents/module_3_workflow_management/demo/snakemake/work/3_selected_names.csv")
+#| message: false
+#| warning: false
+datclean <- read.csv("work/3_selected_names.csv")
 
 datclean |>
   group_by(name, year) |>
